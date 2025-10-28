@@ -135,3 +135,4 @@ Want to customize? Edit these files:
 Free to use, modify, and distribute!
 
 Built with ❤️ for Lock Labs Inc.
+"# PrizeWheel" 
