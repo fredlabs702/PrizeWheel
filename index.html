@@ -13,9 +13,23 @@
 </head>
 <body>
     <div class="container">
+        <!-- Settings Confirmation Modal -->
+        <div id="settingsModal" class="modal hidden">
+            <div class="modal-content">
+                <h2>⚙️ Access Settings</h2>
+                <p>This section allows you to manage prizes.</p>
+                <p><strong>Are you sure you want to access settings?</strong></p>
+                <div class="modal-buttons">
+                    <button id="confirmSettings" class="modal-btn confirm-btn">Yes, Open Settings</button>
+                    <button id="cancelSettings" class="modal-btn cancel-btn">Cancel</button>
+                </div>
+            </div>
+        </div>
+
         <header>
             <h1>🎡 Prize Wheel</h1>
             <p class="subtitle">Spin to Win!</p>
+            <button id="settingsBtn" class="settings-btn">⚙️ Settings</button>
         </header>
 
         <main>
@@ -34,7 +48,7 @@
             </div>
 
             <!-- Prize Management -->
-            <div class="prize-section">
+            <div id="prizeSection" class="prize-section hidden">
                 <h3>Manage Prizes</h3>
                 <div class="input-group">
                     <input type="text" id="newPrize" placeholder="Enter prize name..." maxlength="30">

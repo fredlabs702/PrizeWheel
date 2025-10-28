@@ -22,9 +22,37 @@ class PrizeWheel {
             if (e.key === 'Enter') this.addPrize();
         });
 
+        // Settings modal listeners
+        document.getElementById('settingsBtn').addEventListener('click', () => this.showSettingsModal());
+        document.getElementById('confirmSettings').addEventListener('click', () => this.openSettings());
+        document.getElementById('cancelSettings').addEventListener('click', () => this.closeSettingsModal());
+
         // Initial render
         this.renderPrizeList();
         this.drawWheel();
+    }
+
+    showSettingsModal() {
+        document.getElementById('settingsModal').classList.remove('hidden');
+    }
+
+    closeSettingsModal() {
+        document.getElementById('settingsModal').classList.add('hidden');
+    }
+
+    openSettings() {
+        this.closeSettingsModal();
+        const prizeSection = document.getElementById('prizeSection');
+        
+        // Toggle visibility
+        if (prizeSection.classList.contains('hidden')) {
+            prizeSection.classList.remove('hidden');
+            // Change button text to indicate it's open
+            document.getElementById('settingsBtn').textContent = '✕ Close Settings';
+        } else {
+            prizeSection.classList.add('hidden');
+            document.getElementById('settingsBtn').textContent = '⚙️ Settings';
+        }
     }
 
     loadPrizes() {
