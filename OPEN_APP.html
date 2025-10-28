@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prize Wheel - Quick Start</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+            text-align: center;
+        }
+        h1 { color: #333; font-size: 2.5em; margin-bottom: 20px; }
+        .status { color: #666; font-size: 1.2em; margin-bottom: 30px; }
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            cursor: pointer;
+            margin: 10px;
+            transition: transform 0.3s;
+        }
+        .btn:hover { transform: scale(1.05); }
+        .info {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .info h3 { color: #667eea; margin-bottom: 10px; }
+        .info ul { margin: 10px 0; padding-left: 20px; }
+        .info li { margin: 5px 0; color: #666; }
+        .success { color: #51cf66; font-weight: bold; }
+        .error { color: #ff6b6b; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎡 Prize Wheel</h1>
+        <p class="status">Choose how to run the app:</p>
+
+        <button class="btn" onclick="openDirect()">Open App Now (File Mode)</button>
+        <button class="btn" onclick="openServer()">Open with Server (PWA Mode)</button>
+
+        <div class="info">
+            <h3>📱 Installation Options:</h3>
+            <ul>
+                <li><strong>File Mode:</strong> Opens index.html directly - works immediately but can't install as PWA</li>
+                <li><strong>Server Mode:</strong> Requires running START_SERVER.bat first - enables full PWA features</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>✅ What Works Offline:</h3>
+            <ul>
+                <li>✅ Spinning wheel animation</li>
+                <li>✅ Add/delete prizes</li>
+                <li>✅ Save prizes locally</li>
+                <li>✅ Winner selection</li>
+                <li>✅ Works on iOS, Android, Desktop</li>
+            </ul>
+        </div>
+
+        <div class="info">
+            <h3>🚀 To Deploy for Mobile:</h3>
+            <ul>
+                <li>1. Upload files to GitHub Pages, Netlify, or Vercel (free)</li>
+                <li>2. Open the URL on your phone</li>
+                <li>3. Add to Home Screen (iOS) or Install (Android)</li>
+                <li>4. App works 100% offline after first load!</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        function openDirect() {
+            window.location.href = 'index.html';
+        }
+
+        function openServer() {
+            window.open('http://localhost:8000', '_blank');
+        }
+    </script>
+</body>
+</html>
