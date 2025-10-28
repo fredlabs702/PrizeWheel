@@ -1,5 +1,5 @@
 // Service Worker for offline functionality
-const CACHE_NAME = 'prize-wheel-v1';
+const CACHE_NAME = 'prize-wheel-v2-registration';
 const urlsToCache = [
   '/',
   '/index.html',

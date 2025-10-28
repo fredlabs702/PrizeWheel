@@ -16,25 +16,104 @@
         <!-- Settings Confirmation Modal -->
         <div id="settingsModal" class="modal hidden">
             <div class="modal-content">
-                <h2>⚙️ Access Settings</h2>
+                <h2>⚙️ Settings</h2>
                 <p>This section allows you to manage prizes.</p>
                 <p><strong>Are you sure you want to access settings?</strong></p>
                 <div class="modal-buttons">
-                    <button id="confirmSettings" class="modal-btn confirm-btn">Yes, Open Settings</button>
+                    <button id="confirmSettings" class="modal-btn confirm-btn">Open Settings</button>
+                    <button id="adminBtn" class="modal-btn admin-btn">🔐 Admin</button>
                     <button id="cancelSettings" class="modal-btn cancel-btn">Cancel</button>
                 </div>
             </div>
         </div>
 
         <header>
-            <h1>🎡 Prize Wheel</h1>
-            <p class="subtitle">Spin to Win!</p>
+            <div class="header-logo">
+                <img src="assets/tap2lock-header.png" alt="TAP2LOCK Raffle" id="headerImage" onerror="this.style.display='none'; document.getElementById('fallbackHeader').style.display='block';">
+                <div id="fallbackHeader" style="display: none;">
+                    <h1>🎡 Prize Wheel</h1>
+                    <p class="subtitle">Spin to Win!</p>
+                </div>
+            </div>
             <button id="settingsBtn" class="settings-btn">⚙️ Settings</button>
         </header>
 
         <main>
+            <!-- Registration Form -->
+            <div id="registrationSection" class="registration-section">
+                <div class="registration-container">
+                    <h2>Register to Spin</h2>
+                    <p class="registration-subtitle">Complete the form below to enter the raffle</p>
+                    
+                    <form id="registrationForm" class="registration-form">
+                        <div class="form-group">
+                            <label for="fullName">Full Name *</label>
+                            <input type="text" id="fullName" name="fullName" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email *</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="702-555-1234">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vehicleYear">Vehicle Year *</label>
+                            <input type="number" id="vehicleYear" name="vehicleYear" required 
+                                   min="1990" max="2026" placeholder="2024">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vehicleMake">Vehicle Make *</label>
+                            <select id="vehicleMake" name="vehicleMake" required>
+                                <option value="">Select Make</option>
+                                <option value="Toyota">Toyota</option>
+                                <option value="Honda">Honda</option>
+                                <option value="Ford">Ford</option>
+                                <option value="Chevrolet">Chevrolet</option>
+                                <option value="Nissan">Nissan</option>
+                                <option value="BMW">BMW</option>
+                                <option value="Mercedes-Benz">Mercedes-Benz</option>
+                                <option value="Audi">Audi</option>
+                                <option value="Lexus">Lexus</option>
+                                <option value="Volkswagen">Volkswagen</option>
+                                <option value="Hyundai">Hyundai</option>
+                                <option value="Kia">Kia</option>
+                                <option value="Mazda">Mazda</option>
+                                <option value="Subaru">Subaru</option>
+                                <option value="Tesla">Tesla</option>
+                                <option value="Jeep">Jeep</option>
+                                <option value="Ram">Ram</option>
+                                <option value="GMC">GMC</option>
+                                <option value="Dodge">Dodge</option>
+                                <option value="Cadillac">Cadillac</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group" id="otherMakeGroup" style="display: none;">
+                            <label for="vehicleMakeOther">Specify Make *</label>
+                            <input type="text" id="vehicleMakeOther" name="vehicleMakeOther">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="vehicleModel">Vehicle Model *</label>
+                            <input type="text" id="vehicleModel" name="vehicleModel" required placeholder="Camry">
+                        </div>
+
+                        <p class="form-note">* Required for Tap2Lock device eligibility. Subject to vehicle compatibility.</p>
+
+                        <button type="submit" class="submit-btn">Submit & Spin</button>
+                    </form>
+                </div>
+            </div>
+
             <!-- Wheel Container -->
-            <div class="wheel-container">
+            <div class="wheel-container hidden" id="wheelContainer">
                 <div class="wheel-pointer">▼</div>
                 <canvas id="wheelCanvas" width="400" height="400"></canvas>
                 <button id="spinButton" class="spin-btn">SPIN!</button>
@@ -49,7 +128,10 @@
 
             <!-- Prize Management -->
             <div id="prizeSection" class="prize-section hidden">
-                <h3>Manage Prizes</h3>
+                <div class="prize-section-header">
+                    <h3>Manage Prizes</h3>
+                    <button id="closeSettings" class="close-settings-btn">✕ Confirm & Close</button>
+                </div>
                 <div class="input-group">
                     <input type="text" id="newPrize" placeholder="Enter prize name..." maxlength="30">
                     <button id="addPrize" class="add-btn">Add Prize</button>
@@ -57,10 +139,55 @@
                 
                 <div id="prizeList" class="prize-list"></div>
             </div>
+
+            <!-- Admin Panel -->
+            <div id="adminSection" class="admin-section hidden">
+                <div class="admin-header">
+                    <h2>🔐 Admin Panel</h2>
+                    <button id="closeAdmin" class="close-admin-btn">✕ Close</button>
+                </div>
+
+                <div class="admin-stats">
+                    <div class="stat-card">
+                        <h3 id="totalEntries">0</h3>
+                        <p>Total Entries</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3 id="totalSpins">0</h3>
+                        <p>Spins Completed</p>
+                    </div>
+                </div>
+
+                <div class="admin-actions">
+                    <button id="exportCSV" class="admin-btn export-btn">📥 Export to CSV</button>
+                    <button id="viewEntries" class="admin-btn view-btn">👁️ View Entries</button>
+                    <button id="clearData" class="admin-btn danger-btn">🗑️ Clear All Data</button>
+                </div>
+
+                <div id="entriesTable" class="entries-table hidden">
+                    <h3>Registration Entries</h3>
+                    <div class="table-container">
+                        <table id="entriesTableData">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Timestamp</th>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Phone</th>
+                                    <th>Vehicle</th>
+                                    <th>Prize Won</th>
+                                </tr>
+                            </thead>
+                            <tbody id="entriesTableBody">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </main>
 
         <footer>
-            <p>Works 100% offline • No internet required</p>
         </footer>
     </div>
 
