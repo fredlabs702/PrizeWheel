@@ -1,4 +1,6 @@
 // Prize Wheel App - Main JavaScript
+// SheetDB Integration: Multi-device sync enabled
+// Last Updated: October 31, 2025
 
 class PrizeWheel {
     constructor() {
@@ -204,6 +206,11 @@ class PrizeWheel {
         // Save prize to entry
         if (this.currentEntryId) {
             this.dataManager.updateEntryPrize(this.currentEntryId, winner);
+            
+            // Sync to SheetDB (background, non-blocking)
+            this.syncPrizeToSheet(this.currentEntryId, winner).catch(error => {
+                console.error('Failed to sync prize to sheet:', error);
+            });
         }
 
         // Store audit log for post-event verification
@@ -290,8 +297,23 @@ class PrizeWheel {
     }
 
     handleRegistration(formData) {
-        // Save entry to storage
+        // Show loading indicator
+        this.showLoadingIndicator('Saving registration...');
+        
+        // Save entry to storage first (immediate feedback)
         this.currentEntryId = this.dataManager.saveEntry(formData);
+        
+        // Also save to SheetDB (background sync)
+        this.syncEntryToSheet(formData)
+            .then(() => {
+                console.log('✅ Entry synced to SheetDB');
+                this.hideLoadingIndicator();
+            })
+            .catch((error) => {
+                console.error('⚠️ Failed to sync to SheetDB, data saved locally', error);
+                this.hideLoadingIndicator();
+                // Don't block user - local save is enough
+            });
         
         // Hide registration form
         this.registrationHandler.hide();
@@ -330,6 +352,59 @@ class PrizeWheel {
         
         // Hide winner display
         document.getElementById('winnerDisplay').classList.add('hidden');
+    }
+
+    // ============================================
+    // SHEETDB SYNC METHODS
+    // ============================================
+
+    async syncEntryToSheet(formData) {
+        try {
+            const entry = this.dataManager.getEntryById(this.currentEntryId);
+            if (!entry) {
+                throw new Error('Entry not found in local storage');
+            }
+            await sheetDB.addEntry(entry);
+            return true;
+        } catch (error) {
+            console.error('Failed to sync entry to SheetDB:', error);
+            throw error;
+        }
+    }
+
+    async syncPrizeToSheet(entryId, prizeName) {
+        try {
+            await sheetDB.updatePrize(entryId, prizeName);
+            console.log('✅ Prize synced to SheetDB');
+            return true;
+        } catch (error) {
+            console.error('⚠️ Failed to sync prize to SheetDB:', error);
+            return false;
+        }
+    }
+
+    showLoadingIndicator(message = 'Loading...') {
+        let indicator = document.getElementById('loadingIndicator');
+        if (!indicator) {
+            indicator = document.createElement('div');
+            indicator.id = 'loadingIndicator';
+            indicator.className = 'loading-indicator';
+            indicator.innerHTML = `
+                <div class="loading-spinner"></div>
+                <p>${message}</p>
+            `;
+            document.body.appendChild(indicator);
+        } else {
+            indicator.querySelector('p').textContent = message;
+            indicator.style.display = 'flex';
+        }
+    }
+
+    hideLoadingIndicator() {
+        const indicator = document.getElementById('loadingIndicator');
+        if (indicator) {
+            indicator.style.display = 'none';
+        }
     }
 }
 
@@ -370,6 +445,12 @@ class DataManager {
             entry.prize = prizeName;
             localStorage.setItem(this.storageKey, JSON.stringify(entries));
         }
+    }
+
+    // Get entry by ID
+    getEntryById(entryId) {
+        const entries = this.getEntries();
+        return entries.find(e => e.id === entryId);
     }
 
     // Get total entries count
