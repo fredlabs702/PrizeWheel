@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prize Wheel - Network Setup</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+        .subtitle {
+            text-align: center;
+            opacity: 0.9;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+        .info-box {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+        }
+        .url-display {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 1.5em;
+            font-weight: bold;
+            margin: 15px 0;
+            word-break: break-all;
+        }
+        .qr-container {
+            text-align: center;
+            margin: 30px 0;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+        }
+        #qrcode {
+            display: inline-block;
+        }
+        .instructions {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        .instructions h3 {
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+        .instructions ol {
+            margin-left: 20px;
+        }
+        .instructions li {
+            margin: 10px 0;
+            line-height: 1.6;
+        }
+        .status {
+            text-align: center;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            font-weight: bold;
+        }
+        .status.online {
+            background: rgba(76, 175, 80, 0.3);
+        }
+        .status.offline {
+            background: rgba(244, 67, 54, 0.3);
+        }
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: bold;
+            margin: 10px;
+            transition: transform 0.2s;
+        }
+        .button:hover {
+            transform: scale(1.05);
+        }
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
+        .warning {
+            background: rgba(255, 193, 7, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🌐 Prize Wheel Network Setup</h1>
+        <p class="subtitle">Connect phones & tablets to your laptop</p>
+
+        <div class="info-box">
+            <h3>📱 Your Network URL:</h3>
+            <div class="url-display" id="networkUrl">Loading...</div>
+            <p style="text-align: center; opacity: 0.8; margin-top: 10px;">
+                Share this URL with devices on your network
+            </p>
+        </div>
+
+        <div class="qr-container">
+            <h3 style="color: #333; margin-bottom: 15px;">📷 Scan QR Code</h3>
+            <div id="qrcode"></div>
+            <p style="color: #666; margin-top: 15px;">Point your phone camera at this code</p>
+        </div>
+
+        <div class="status online" id="status">
+            ✅ Server is running on your local network
+        </div>
+
+        <div class="instructions">
+            <h3>📋 Setup Instructions</h3>
+            <ol>
+                <li><strong>Make sure devices are on the same WiFi</strong>
+                    <br>All phones/tablets must be on the same network as this laptop</li>
+                
+                <li><strong>Option A: Scan QR Code</strong>
+                    <br>Open camera app, point at QR code above, tap the link</li>
+                
+                <li><strong>Option B: Type URL manually</strong>
+                    <br>Open browser, type the URL shown above</li>
+                
+                <li><strong>Bookmark the page</strong>
+                    <br>Add to home screen or bookmark for quick access</li>
+                
+                <li><strong>Test offline mode</strong>
+                    <br>After first load, turn off WiFi - app still works!</li>
+            </ol>
+        </div>
+
+        <div class="warning">
+            <strong>⚠️ Important Notes:</strong>
+            <ul style="margin: 10px 0 0 20px;">
+                <li>Your laptop must stay on and the server must keep running</li>
+                <li>IP address may change if you restart your router</li>
+                <li>Works on local network only (no internet connection needed)</li>
+                <li>Devices cache the app after first load for offline use</li>
+            </ul>
+        </div>
+
+        <div class="instructions">
+            <h3>💾 Offline Capability</h3>
+            <p><strong>How it works:</strong></p>
+            <ol>
+                <li>First visit: Device downloads app from your laptop</li>
+                <li>Service Worker caches all files locally on device</li>
+                <li>Future visits: App loads from device cache (instant!)</li>
+                <li>Data saved: All registrations stored in browser LocalStorage</li>
+                <li>Works offline: Turn off WiFi, app still functions perfectly</li>
+            </ol>
+            <p style="margin-top: 15px;"><strong>⚠️ Cache clearing:</strong> If you update the app, devices need to press <code>Ctrl+Shift+R</code> (or clear browser cache) to get new version.</p>
+        </div>
+
+        <div class="instructions">
+            <h3>🔧 Troubleshooting</h3>
+            <ul style="margin-left: 20px;">
+                <li><strong>Can't connect?</strong> Check firewall - run START_NETWORK_SERVER.bat as Administrator</li>
+                <li><strong>IP changed?</strong> Restart router resets IP - regenerate QR code</li>
+                <li><strong>Slow loading?</strong> First load downloads all files, then cached</li>
+                <li><strong>Old version showing?</strong> Clear browser cache or hard refresh</li>
+            </ul>
+        </div>
+
+        <div class="button-container">
+            <a href="/" class="button">🎡 Open Prize Wheel</a>
+            <a href="#" onclick="window.print(); return false;" class="button">🖨️ Print QR Code</a>
+        </div>
+
+        <div class="info-box" style="margin-top: 30px;">
+            <h3>🖥️ Server Management</h3>
+            <p><strong>To stop the server:</strong></p>
+            <ul style="margin: 10px 0 0 20px;">
+                <li>Press Ctrl+C in the server window</li>
+                <li>Or run: <code>STOP_SERVER.bat</code></li>
+            </ul>
+            <p style="margin-top: 15px;"><strong>To restart:</strong></p>
+            <ul style="margin: 10px 0 0 20px;">
+                <li>Run: <code>START_NETWORK_SERVER.bat</code></li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // Get the current host IP and port
+        const host = window.location.hostname;
+        const port = window.location.port;
+        const protocol = window.location.protocol;
+        
+        // Construct the full URL
+        const fullUrl = `${protocol}//${host}:${port}`;
+        
+        // Display the URL
+        document.getElementById('networkUrl').textContent = fullUrl;
+        
+        // Generate QR code
+        new QRCode(document.getElementById("qrcode"), {
+            text: fullUrl,
+            width: 256,
+            height: 256,
+            colorDark: "#000000",
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
+        });
+
+        // Check server status periodically
+        function checkStatus() {
+            fetch('/')
+                .then(response => {
+                    if (response.ok) {
+                        document.getElementById('status').className = 'status online';
+                        document.getElementById('status').innerHTML = '✅ Server is running on your local network';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('status').className = 'status offline';
+                    document.getElementById('status').innerHTML = '❌ Server connection lost';
+                });
+        }
+
+        // Check status every 5 seconds
+        setInterval(checkStatus, 5000);
+    </script>
+</body>
+</html>

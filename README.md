@@ -1,138 +1,221 @@
-# Prize Wheel - Offline PWA
+# 🎡 Prize Wheel - Portable Installation Package
 
-A fully offline prize wheel app that works on iOS, Android, and desktop browsers!
+## 📦 Quick Installation (3 Steps)
 
-## Features
+### Step 1: Extract ZIP File
+Extract this ZIP to: **`C:\Prizewheel`**
 
-✅ **100% Offline** - Works without internet after first load
-✅ **Cross-Platform** - iOS, Android, Windows, Mac, Linux
-✅ **No App Store Required** - Install directly from browser
-✅ **Customizable Prizes** - Add up to 12 prizes
-✅ **Smooth Animations** - Beautiful spinning wheel effect
-✅ **Data Persistence** - Your prizes are saved locally
-✅ **Zero Cost** - No hosting or app store fees
+### Step 2: Run Setup
+Right-click **`SETUP.bat`** → **Run as administrator**
 
-## How to Use
+### Step 3: Done!
+Double-click the desktop shortcut: **"Prize Wheel Server"**
 
-### Option 1: Quick Test (Local File)
-1. Open `index.html` in your web browser
-2. The app works immediately!
+---
 
-### Option 2: Install as PWA (Recommended)
+## ✅ What the Setup Does
 
-#### For Testing Locally:
-1. Install a simple web server:
-   ```
-   npm install -g http-server
-   ```
-   OR use Python:
-   ```
-   python -m http.server 8000
-   ```
+The **SETUP.bat** script automatically:
 
-2. Run the server in the C:\PrizeWheel folder:
-   ```
-   http-server
-   ```
-   OR
-   ```
-   python -m http.server 8000
-   ```
+1. ✅ Checks if Python is installed
+2. ✅ Downloads and installs Python (if needed)
+3. ✅ Configures Windows Firewall (port 8000)
+4. ✅ Tests the server
+5. ✅ Creates desktop shortcuts
+6. ✅ Gets your laptop's IP address
+7. ✅ Ready to use!
 
-3. Open browser to: http://localhost:8000
+**Total time:** 2-5 minutes (depending on Python download)
 
-4. **Install the app:**
-   - **Chrome/Edge**: Click install icon in address bar
-   - **Safari iOS**: Tap Share → Add to Home Screen
-   - **Android**: Tap menu → Add to Home Screen
+---
 
-#### For Public Deployment (Free Hosting):
+## 🚀 After Setup - How to Use
 
-**Option A: GitHub Pages (Recommended)**
-1. Create a GitHub account (free)
-2. Create a new repository
-3. Upload all files from C:\PrizeWheel
-4. Go to Settings → Pages
-5. Enable GitHub Pages
-6. Your app will be at: `https://yourusername.github.io/repo-name`
+### Start the Server
+Double-click desktop shortcut: **"Prize Wheel Server"**
 
-**Option B: Netlify**
-1. Sign up at netlify.com (free)
-2. Drag and drop the C:\PrizeWheel folder
-3. Get instant URL like: `https://your-app.netlify.app`
+This will:
+- Start the server
+- Open browser to Prize Wheel
+- Show network URL for mobile devices
 
-**Option C: Vercel**
-1. Sign up at vercel.com (free)
-2. Import the folder
-3. Deploy with one click
+### Connect Mobile Devices
+1. Connect phone/tablet to same WiFi
+2. Double-click desktop shortcut: **"Prize Wheel - QR Code"**
+3. Scan QR code with phone camera
+4. Or manually type: `http://[YOUR-IP]:8000`
 
-### Once Deployed:
-- Share the URL with anyone
-- They can install it as an app on their device
-- Works 100% offline after first visit
+---
 
-## Using the App
+## 📁 Files Included
 
-1. **Spin the Wheel**: Click the big SPIN button in center
-2. **Add Prizes**: Type prize name and click "Add Prize"
-3. **Delete Prizes**: Click delete button next to any prize
-4. **Minimum**: Must have at least 2 prizes
-5. **Maximum**: Can have up to 12 prizes
+```
+SETUP.bat                       ⭐ RUN THIS FIRST!
+START_NETWORK_SERVER.bat        - Start server
+START_SERVER.bat                - Basic server
+STOP_SERVER.bat                 - Stop server
+FORCE_CLEAR_CACHE.bat           - Clear cache
 
-## Files Included
+index.html                      - Main app
+app.js                          - JavaScript
+styles.css                      - Styling
+sw.js                           - Service Worker
+manifest.json                   - PWA config
 
-- `index.html` - Main app page
-- `styles.css` - All styling (responsive design)
-- `app.js` - Wheel logic and animations
-- `sw.js` - Service worker (enables offline mode)
-- `manifest.json` - PWA configuration
-- `icon-192.png` - App icon (small)
-- `icon-512.png` - App icon (large)
+network-setup.html              - QR code generator
+LAPTOP_INSTALLATION.md          - Installation guide
+NETWORK_SETUP_GUIDE.md          - Complete network guide
+README.md                       - This file
 
-## Technical Details
+assets/
+  └─ tap2lock-header.png        - Logo
+```
 
-- **No Backend Required** - Pure frontend application
-- **Storage**: LocalStorage (works offline)
-- **Frameworks**: Vanilla JavaScript (no dependencies)
-- **Size**: < 50KB total
-- **Browser Support**: All modern browsers
-- **PWA Standard**: Full Progressive Web App compliance
+---
 
-## Customization
+## 💡 Important Notes
 
-Want to customize? Edit these files:
+### Python Installation
+- Setup automatically installs Python if needed
+- Downloads Python 3.11 from python.org
+- Adds Python to PATH automatically
+- If auto-install fails, download manually: https://www.python.org/downloads/
 
-- **Colors**: Change colors array in `app.js` (line 12)
-- **Max Prizes**: Change limit in `app.js` (line 87)
-- **Spin Duration**: Change duration in `app.js` (line 109)
-- **Theme**: Edit colors in `styles.css`
+### Administrator Rights
+- Required for: Installing Python + Configuring Firewall
+- Right-click SETUP.bat → "Run as administrator"
 
-## Troubleshooting
+### Firewall
+- Setup creates rule for port 8000
+- Allows network connections from mobile devices
+- Required for phones/tablets to connect
 
-**App won't install?**
-- Must use HTTPS or localhost
-- Try Chrome/Edge instead of Safari
-- Clear browser cache and reload
+---
 
-**Prizes not saving?**
-- Check browser allows localStorage
-- Don't use private/incognito mode
+## 🎪 Trade Show Usage
 
-**Wheel not spinning?**
-- Make sure you have at least 2 prizes
-- Check browser console for errors
+### Quick Start at Event
+1. Double-click: "Prize Wheel Server"
+2. Print QR code page
+3. Post at booth
+4. Attendees scan and spin!
 
-## Zero Cost Deployment Checklist
+### WiFi Options
 
-✅ No hosting fees (use GitHub Pages/Netlify/Vercel)
-✅ No app store fees (PWA installs from browser)
-✅ No backend costs (runs entirely in browser)
-✅ No database costs (uses localStorage)
-✅ No domain required (free subdomain provided)
+**Option A: Laptop Hotspot (Best)**
+- Settings → Mobile Hotspot → Turn ON
+- No venue WiFi needed
+- You control the network
 
-## License
+**Option B: Venue WiFi**
+- Connect laptop to venue WiFi
+- Devices connect to same WiFi
+- Share laptop IP address
 
-Free to use, modify, and distribute!
+---
 
-Built with ❤️ for Lock Labs Inc.
-"# PrizeWheel" 
+## 💾 Offline Mode
+
+**How it works:**
+1. Phone connects to laptop (first time)
+2. App downloads and caches
+3. After that: Works 100% offline!
+4. No WiFi or laptop needed
+
+**Perfect for:**
+- Pre-loading tablets before event
+- Backup when WiFi fails
+- Multi-day events
+
+---
+
+## 🔧 Troubleshooting
+
+### "Setup failed"
+- Right-click SETUP.bat → Run as administrator
+- Check internet connection (for Python download)
+- See LAPTOP_INSTALLATION.md for manual setup
+
+### "Can't connect from phone"
+- Same WiFi network?
+- Check laptop IP: Open Command Prompt → `ipconfig`
+- Firewall enabled? Re-run SETUP.bat as admin
+
+### "Python not found"
+- Restart Command Prompt after setup
+- Or restart laptop
+- Or manually install: https://www.python.org/downloads/
+
+### "Old version showing"
+- Press Ctrl+Shift+R (hard refresh)
+- Or run: FORCE_CLEAR_CACHE.bat
+
+---
+
+## 📋 What You Get
+
+### Features
+✅ Registration form (Name, Email, Phone, Vehicle)
+✅ Spinning prize wheel
+✅ Winner display
+✅ Admin panel with data export
+✅ CSV export of all entries
+✅ Offline PWA capability
+✅ Mobile-responsive design
+✅ Network accessible from tablets/phones
+
+### System Requirements
+- Windows 10/11 (64-bit)
+- 4GB RAM minimum
+- 100MB disk space
+- WiFi capability
+- Python 3.7+ (auto-installed by setup)
+
+---
+
+## 📚 Documentation
+
+- **LAPTOP_INSTALLATION.md** - Complete installation guide
+- **NETWORK_SETUP_GUIDE.md** - 400-line network guide
+- **SESSION_COMPLETE.md** - Feature overview
+- **GITHUB_PUSH_GUIDE.md** - How to update
+
+---
+
+## 🎯 Quick Reference
+
+| Task | Action |
+|------|--------|
+| Install | Right-click SETUP.bat → Run as admin |
+| Start Server | Double-click desktop shortcut |
+| Get QR Code | Double-click "Prize Wheel - QR Code" |
+| Stop Server | Run STOP_SERVER.bat or press Ctrl+C |
+| Clear Cache | Run FORCE_CLEAR_CACHE.bat |
+| Configure Prizes | Click ⚙️ Settings in app |
+| Export Data | Settings → Admin → Export CSV |
+
+---
+
+## ✅ Installation Checklist
+
+- ☐ Extract ZIP to C:\Prizewheel
+- ☐ Right-click SETUP.bat → Run as administrator
+- ☐ Wait for setup to complete (2-5 minutes)
+- ☐ Double-click "Prize Wheel Server" on desktop
+- ☐ Test registration and spinning
+- ☐ Configure your prizes (Settings)
+- ☐ Print QR code page
+- ☐ Test on mobile device
+
+---
+
+## 🎉 Ready to Install?
+
+1. Extract this ZIP to: **C:\Prizewheel**
+2. Right-click **SETUP.bat** → **Run as administrator**
+3. Follow the prompts
+4. Done! 🚀
+
+---
+
+**Need Help?** Check LAPTOP_INSTALLATION.md for detailed instructions!

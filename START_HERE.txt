@@ -1,0 +1,54 @@
+═══════════════════════════════════════════════════════════════
+   🎡 PRIZE WHEEL - LAPTOP INSTALLATION
+═══════════════════════════════════════════════════════════════
+
+   QUICK INSTALL - 3 STEPS:
+
+   1. Extract ZIP to: C:\Prizewheel
+
+   2. Right-click: SETUP.bat
+      → Select: "Run as administrator"
+
+   3. Follow the prompts
+      (Takes 2-5 minutes)
+
+═══════════════════════════════════════════════════════════════
+
+   WHAT HAPPENS:
+   
+   ✅ Installs Python (if needed)
+   ✅ Configures firewall
+   ✅ Tests server
+   ✅ Creates desktop shortcuts
+   ✅ Ready to use!
+
+═══════════════════════════════════════════════════════════════
+
+   AFTER SETUP:
+
+   Double-click desktop shortcut:
+   "Prize Wheel Server"
+
+   Browser opens → Test the app!
+
+═══════════════════════════════════════════════════════════════
+
+   FOR MOBILE DEVICES:
+
+   1. Connect phone to same WiFi as laptop
+   2. Double-click: "Prize Wheel - QR Code" 
+   3. Scan QR code with phone
+   4. Register and spin!
+
+═══════════════════════════════════════════════════════════════
+
+   NEED HELP?
+
+   Read: README.md (detailed instructions)
+   Or:   LAPTOP_INSTALLATION.md (complete guide)
+
+═══════════════════════════════════════════════════════════════
+
+   START HERE: Right-click SETUP.bat → Run as administrator
+
+═══════════════════════════════════════════════════════════════

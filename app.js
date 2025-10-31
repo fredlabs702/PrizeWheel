@@ -171,15 +171,57 @@ class PrizeWheel {
 
     showWinner() {
         const sliceAngle = (2 * Math.PI) / this.prizes.length;
-        // Adjust rotation to account for pointer at top
-        const adjustedRotation = (2 * Math.PI - this.rotation) % (2 * Math.PI);
+        
+        // Pointer is at TOP (270° in canvas coordinates = -π/2 radians)
+        const pointerOffsetRadians = -Math.PI / 2;
+        
+        // Calculate rotation relative to pointer position
+        const rotationRelativeToPointer = this.rotation - pointerOffsetRadians;
+        
+        // Normalize to 0-2π range (handle negative values)
+        const normalizedRotation = ((rotationRelativeToPointer % (2 * Math.PI)) + (2 * Math.PI)) % (2 * Math.PI);
+        
+        // Reverse direction (prizes drawn clockwise from 0°, measure counter-clockwise from pointer)
+        const adjustedRotation = (2 * Math.PI - normalizedRotation) % (2 * Math.PI);
+        
         const winningIndex = Math.floor(adjustedRotation / sliceAngle);
         const winner = this.prizes[winningIndex];
+
+        // ⚠️ CRITICAL AUDIT LOG: Verify selection accuracy
+        console.log('🎯 === SPIN RESULT VERIFICATION ===');
+        console.log('Total Prizes:', this.prizes.length);
+        console.log('Slice Angle:', (sliceAngle * 180 / Math.PI).toFixed(2) + '°');
+        console.log('Final Rotation (raw):', (this.rotation * 180 / Math.PI).toFixed(2) + '° (' + this.rotation.toFixed(4) + ' rad)');
+        console.log('Pointer Offset:', (pointerOffsetRadians * 180 / Math.PI).toFixed(2) + '°');
+        console.log('Rotation Relative to Pointer:', (rotationRelativeToPointer * 180 / Math.PI).toFixed(2) + '°');
+        console.log('Normalized Rotation:', (normalizedRotation * 180 / Math.PI).toFixed(2) + '°');
+        console.log('Adjusted Rotation:', (adjustedRotation * 180 / Math.PI).toFixed(2) + '°');
+        console.log('Winning Index:', winningIndex);
+        console.log('Selected Prize:', winner);
+        console.log('Prize Array:', this.prizes);
+        console.log('=================================');
 
         // Save prize to entry
         if (this.currentEntryId) {
             this.dataManager.updateEntryPrize(this.currentEntryId, winner);
         }
+
+        // Store audit log for post-event verification
+        const selectionLog = {
+            timestamp: new Date().toISOString(),
+            entryId: this.currentEntryId,
+            rotation: this.rotation,
+            adjustedRotation: adjustedRotation,
+            sliceAngle: sliceAngle,
+            winningIndex: winningIndex,
+            selectedPrize: winner,
+            totalPrizes: this.prizes.length,
+            prizeArray: [...this.prizes]
+        };
+        
+        const auditLog = JSON.parse(localStorage.getItem('spinAuditLog') || '[]');
+        auditLog.push(selectionLog);
+        localStorage.setItem('spinAuditLog', JSON.stringify(auditLog));
 
         document.getElementById('winnerText').textContent = winner;
         document.getElementById('winnerDisplay').classList.remove('hidden');
@@ -254,11 +296,23 @@ class PrizeWheel {
         // Hide registration form
         this.registrationHandler.hide();
         
-        // Show wheel
-        document.getElementById('wheelContainer').classList.remove('hidden');
+        // Show custom success modal with user's name
+        document.getElementById('successUserName').textContent = formData.fullName;
+        const modal = document.getElementById('registrationSuccessModal');
+        modal.classList.remove('hidden');
         
-        // Show success message
-        alert(`✅ Registration successful! ${formData.fullName}, you can now spin the wheel!`);
+        // Auto-close after 3 seconds and show wheel
+        const autoCloseTimer = setTimeout(() => {
+            modal.classList.add('hidden');
+            document.getElementById('wheelContainer').classList.remove('hidden');
+        }, 3000);
+        
+        // Manual close on button click (clears auto-close timer)
+        document.getElementById('startSpinningBtn').onclick = () => {
+            clearTimeout(autoCloseTimer);
+            modal.classList.add('hidden');
+            document.getElementById('wheelContainer').classList.remove('hidden');
+        };
     }
 
     resetForNewEntry() {

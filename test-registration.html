@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registration Debug Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        .test-section {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .hidden {
+            display: none !important;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            cursor: pointer;
+        }
+        .wheel-container {
+            background: #e0f7fa;
+            padding: 20px;
+            border: 2px solid #00acc1;
+        }
+        .registration-section {
+            background: #fff3e0;
+            padding: 20px;
+            border: 2px solid #ff9800;
+        }
+        pre {
+            background: #263238;
+            color: #aed581;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔍 Prize Wheel Registration Debug Test</h1>
+    
+    <div class="test-section">
+        <h2>Manual Control Panel</h2>
+        <button onclick="showRegistration()">Show Registration</button>
+        <button onclick="hideRegistration()">Hide Registration</button>
+        <button onclick="showWheel()">Show Wheel</button>
+        <button onclick="hideWheel()">Hide Wheel</button>
+        <button onclick="checkClasses()">Check Classes</button>
+    </div>
+
+    <div class="test-section">
+        <h2>Current State</h2>
+        <pre id="debugOutput">Waiting for test...</pre>
+    </div>
+
+    <!-- Registration Section -->
+    <div id="registrationSection" class="registration-section">
+        <h3>📝 Registration Form</h3>
+        <p>This should be VISIBLE by default</p>
+        <form id="testForm">
+            <input type="text" placeholder="Test Name" required>
+            <button type="submit">Submit Test</button>
+        </form>
+    </div>
+
+    <!-- Wheel Container -->
+    <div id="wheelContainer" class="wheel-container hidden">
+        <h3>🎡 Wheel Container</h3>
+        <p>This should be HIDDEN by default, then VISIBLE after registration</p>
+        <div style="width: 200px; height: 200px; background: linear-gradient(45deg, #ff6b6b, #4ecdc4); border-radius: 50%;"></div>
+    </div>
+
+    <script>
+        // Debug functions
+        function showRegistration() {
+            document.getElementById('registrationSection').classList.remove('hidden');
+            updateDebug();
+        }
+        
+        function hideRegistration() {
+            document.getElementById('registrationSection').classList.add('hidden');
+            updateDebug();
+        }
+        
+        function showWheel() {
+            document.getElementById('wheelContainer').classList.remove('hidden');
+            updateDebug();
+        }
+        
+        function hideWheel() {
+            document.getElementById('wheelContainer').classList.add('hidden');
+            updateDebug();
+        }
+        
+        function checkClasses() {
+            updateDebug();
+        }
+        
+        function updateDebug() {
+            const regSection = document.getElementById('registrationSection');
+            const wheelContainer = document.getElementById('wheelContainer');
+            
+            const debug = {
+                registrationSection: {
+                    hasHiddenClass: regSection.classList.contains('hidden'),
+                    classes: Array.from(regSection.classList),
+                    computedDisplay: window.getComputedStyle(regSection).display,
+                    isVisible: regSection.offsetHeight > 0
+                },
+                wheelContainer: {
+                    hasHiddenClass: wheelContainer.classList.contains('hidden'),
+                    classes: Array.from(wheelContainer.classList),
+                    computedDisplay: window.getComputedStyle(wheelContainer).display,
+                    isVisible: wheelContainer.offsetHeight > 0
+                }
+            };
+            
+            document.getElementById('debugOutput').textContent = JSON.stringify(debug, null, 2);
+        }
+        
+        // Simulate registration flow
+        document.getElementById('testForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('✅ Form submitted! Now hiding registration and showing wheel...');
+            hideRegistration();
+            showWheel();
+        });
+        
+        // Initial debug output
+        updateDebug();
+    </script>
+</body>
+</html>
